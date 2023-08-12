@@ -36,7 +36,7 @@ namespace POSFull {
             textName.Clear(); textName.Enabled = false; textID.Clear();
         }
 
-        private void btnEdit_Click(object sender, EventArgs e) {
+        private void btnEdit_Click(object sender, EventArgs e) {      
 
         }
     }
