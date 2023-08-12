@@ -26,7 +26,8 @@ namespace POSFull {
         }
 
         private void btnCategories_Click(object sender, EventArgs e) {
-
+            ItemsForm itemsForm = new ItemsForm();
+            itemsForm.ShowDialog();
         }
     }
 }

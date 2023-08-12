@@ -98,6 +98,7 @@
             this.btnCategories,
             this.btnProducts});
             this.storage.Enabled = false;
+            this.storage.Expanded = true;
             this.storage.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("storage.ImageOptions.Image")));
             this.storage.Name = "storage";
             this.storage.Text = "المخزن";
@@ -221,6 +222,7 @@
             this.ClientSize = new System.Drawing.Size(809, 698);
             this.Controls.Add(this.accordionControl1);
             this.Name = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.accordionControl1)).EndInit();
             this.ResumeLayout(false);

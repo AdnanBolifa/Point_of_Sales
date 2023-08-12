@@ -12,14 +12,55 @@ namespace POSFull {
         public DataTable dtItem = new DataTable();
 
         public void LoadItem() {
-            MySqlCommand cmd = new MySqlCommand();
-            cmd.Connection = Settings.cnn;
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.CommandText = "loadItemSP";
+            using (MySqlConnection cnn = new MySqlConnection()) {
+                Settings.OpenConnection(); // Open the database connection using the Settings class
 
-            Settings.cnn.Open();
-            dtItem.Load(cmd.ExecuteReader());
-            Settings.cnn.Close();
+                MySqlCommand cmd = new MySqlCommand();
+                cmd.Connection = Settings.cnn; // Use the existing connection from the Settings class
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "loadItemSP";
+
+                dtItem.Load(cmd.ExecuteReader());
+
+                Settings.CloseConnection(); // Close the database connection using the Settings class
+            }
+        }
+        /*public int MaxID() {
+            int id = 0;
+
+            Settings.OpenConnection(); // Open the database connection using the Settings class
+
+            try {
+                MySqlCommand cmd = new MySqlCommand();
+                cmd.Connection = Settings.cnn; // Use the existing connection from the Settings class
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "MaxIDitemSP";
+
+                id = Convert.ToInt32(cmd.ExecuteScalar());
+            } catch (Exception) {
+                id = 0;
+            }
+
+            Settings.CloseConnection(); // Close the database connection using the Settings class
+
+            return id;
+        }*/
+        public void InsertItems(int id, string name) {
+            try {
+                Settings.OpenConnection(); // Open the database connection using the Settings class
+
+                using (MySqlCommand cmd = new MySqlCommand()) {
+                    cmd.Connection = Settings.cnn; // Use the existing connection from the Settings class
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandText = "InsertItemsSP";
+                    cmd.Parameters.Add(new MySqlParameter("id", id));
+                    cmd.Parameters.Add(new MySqlParameter("name", name));
+
+                    cmd.ExecuteNonQuery();
+                }
+            } finally {
+                Settings.CloseConnection(); // Close the database connection using the Settings class
+            }
         }
     }
 }
