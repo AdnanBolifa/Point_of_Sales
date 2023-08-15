@@ -24,6 +24,26 @@ namespace POSFull {
                 Settings.CloseConnection(); // Close the database connection using the Settings class
             }
         }
+        public int MaxID() {
+            int id = 0;
+
+            Settings.OpenConnection(); // Open the database connection using the Settings class
+
+            try {
+                MySqlCommand cmd = new MySqlCommand();
+                cmd.Connection = Settings.cnn; // Use the existing connection from the Settings class
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "MaxIDitemSP";
+
+                id = Convert.ToInt32(cmd.ExecuteScalar());
+            } catch (Exception) {
+                id = 0;
+            }
+
+            Settings.CloseConnection(); // Close the database connection using the Settings class
+
+            return id + 1;
+        }
         public void InsertItems(int id, string name) {
             try {
                 Settings.OpenConnection(); // Open the database connection using the Settings class
@@ -58,28 +78,25 @@ namespace POSFull {
                 Settings.CloseConnection(); // Close the database connection using the Settings class
             }
         }
+        public void DeleteItem(int id) {
+            try {
+                Settings.OpenConnection(); // Open the database connection using the Settings class
+
+                using (MySqlCommand cmd = new MySqlCommand()) {
+                    cmd.Connection = Settings.cnn; // Use the existing connection from the Settings class
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandText = "DeleteItemsSP";
+                    cmd.Parameters.Add(new MySqlParameter("idParam", id));
+
+                    cmd.ExecuteNonQuery();
+                }
+            } finally {
+                Settings.CloseConnection(); // Close the database connection using the Settings class
+            }
+        }
     }
 
 
     //Dead Code..
-    /*public int MaxID() {
-            int id = 0;
-
-            Settings.OpenConnection(); // Open the database connection using the Settings class
-
-            try {
-                MySqlCommand cmd = new MySqlCommand();
-                cmd.Connection = Settings.cnn; // Use the existing connection from the Settings class
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.CommandText = "MaxIDitemSP";
-
-                id = Convert.ToInt32(cmd.ExecuteScalar());
-            } catch (Exception) {
-                id = 0;
-            }
-
-            Settings.CloseConnection(); // Close the database connection using the Settings class
-
-            return id;
-        }*/
+    /**/
 }

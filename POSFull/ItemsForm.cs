@@ -10,7 +10,8 @@ using System.Windows.Forms;
 
 namespace POSFull {
     public partial class ItemsForm : Form {
-        
+
+        Items items = new Items();
         int STATE = 0;          //0 = ADD, 1 = EDIT
         public ItemsForm() {
             InitializeComponent();
@@ -23,23 +24,20 @@ namespace POSFull {
         }
         private void btnAdd_Click(object sender, EventArgs e) {
             STATE = 0;
-            Items item = new Items();
             textName.Enabled = true;  textName.Clear(); textName.Select();
             int id = dataGridView.Rows.Count + 1; //Max ID
-            textID.Text = id.ToString();
+            textID.Text = items.MaxID().ToString();
 
         }
 
         private void btnSave_Click(object sender, EventArgs e) {
             if (STATE == 0) {    //  Add
-                Items items = new Items();
                 items.InsertItems(Convert.ToInt32(textID.Text), textName.Text);
                 items.LoadItem();
                 dataGridView.DataSource = items.dtItem;
                 MessageBox.Show("تمت الاضافة بنجاح!");
                 textName.Clear(); textName.Enabled = false; textID.Clear();
             } else { //Update
-                Items items = new Items();
                 items.EditItem(Convert.ToInt32(textID.Text), textName.Text);
                 items.LoadItem();
                 dataGridView.DataSource = items.dtItem;
@@ -54,6 +52,18 @@ namespace POSFull {
             textID.Text = dataGridView.CurrentRow.Cells[0].Value.ToString();
             textName.Text = dataGridView.CurrentRow.Cells[1].Value.ToString();
             textName.Enabled = true;
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e) {
+            textID.Text = dataGridView.CurrentRow.Cells[0].Value.ToString();
+            DialogResult result = MessageBox.Show("هل انت متأكد من حذف هذا العنصر", "تأكيد", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes) {
+                items.DeleteItem(Convert.ToInt32(textID.Text));
+                // Perform the desired action here
+            }
+            items.LoadItem();
+            dataGridView.DataSource = items.dtItem;
         }
     }
 }
