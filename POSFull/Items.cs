@@ -10,7 +10,6 @@ using System.Data;
 namespace POSFull {
     internal class Items {
         public DataTable dtItem = new DataTable();
-
         public void LoadItem() {
             using (MySqlConnection cnn = new MySqlConnection()) {
                 Settings.OpenConnection(); // Open the database connection using the Settings class
@@ -25,7 +24,45 @@ namespace POSFull {
                 Settings.CloseConnection(); // Close the database connection using the Settings class
             }
         }
-        /*public int MaxID() {
+        public void InsertItems(int id, string name) {
+            try {
+                Settings.OpenConnection(); // Open the database connection using the Settings class
+
+                using (MySqlCommand cmd = new MySqlCommand()) {
+                    cmd.Connection = Settings.cnn; // Use the existing connection from the Settings class
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandText = "InsertItemsSP";
+                    cmd.Parameters.Add(new MySqlParameter("idParam", id));
+                    cmd.Parameters.Add(new MySqlParameter("nameParam", name));
+
+                    cmd.ExecuteNonQuery();
+                }
+            } finally {
+                Settings.CloseConnection(); // Close the database connection using the Settings class
+            }
+        }   
+        public void EditItem(int id, string name) {
+            try {
+                Settings.OpenConnection(); // Open the database connection using the Settings class
+
+                using (MySqlCommand cmd = new MySqlCommand()) {
+                    cmd.Connection = Settings.cnn; // Use the existing connection from the Settings class
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandText = "UpdateItemsSP";
+                    cmd.Parameters.Add(new MySqlParameter("idParam", id));
+                    cmd.Parameters.Add(new MySqlParameter("nameParam", name));
+
+                    cmd.ExecuteNonQuery();
+                }
+            } finally {
+                Settings.CloseConnection(); // Close the database connection using the Settings class
+            }
+        }
+    }
+
+
+    //Dead Code..
+    /*public int MaxID() {
             int id = 0;
 
             Settings.OpenConnection(); // Open the database connection using the Settings class
@@ -45,22 +82,4 @@ namespace POSFull {
 
             return id;
         }*/
-        public void InsertItems(int id, string name) {
-            try {
-                Settings.OpenConnection(); // Open the database connection using the Settings class
-
-                using (MySqlCommand cmd = new MySqlCommand()) {
-                    cmd.Connection = Settings.cnn; // Use the existing connection from the Settings class
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.CommandText = "InsertItemsSP";
-                    cmd.Parameters.Add(new MySqlParameter("id", id));
-                    cmd.Parameters.Add(new MySqlParameter("name", name));
-
-                    cmd.ExecuteNonQuery();
-                }
-            } finally {
-                Settings.CloseConnection(); // Close the database connection using the Settings class
-            }
-        }
-    }
 }
