@@ -37,7 +37,7 @@ namespace POSFull {
 
                 id = Convert.ToInt32(cmd.ExecuteScalar());
             } catch (Exception) {
-                id = 0;
+                throw;
             }
 
             Settings.CloseConnection(); // Close the database connection using the Settings class
@@ -95,8 +95,4 @@ namespace POSFull {
             }
         }
     }
-
-
-    //Dead Code..
-    /**/
 }

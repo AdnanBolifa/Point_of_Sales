@@ -29,5 +29,10 @@ namespace POSFull {
             ItemsForm itemsForm = new ItemsForm();
             itemsForm.ShowDialog();
         }
+
+        private void btnProducts_Click(object sender, EventArgs e) {
+            ProductsForm productsForm = new ProductsForm();
+            productsForm.ShowDialog();
+        }
     }
 }

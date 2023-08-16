@@ -98,7 +98,6 @@
             this.btnCategories,
             this.btnProducts});
             this.storage.Enabled = false;
-            this.storage.Expanded = true;
             this.storage.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("storage.ImageOptions.Image")));
             this.storage.Name = "storage";
             this.storage.Text = "المخزن";
@@ -117,6 +116,7 @@
             this.btnProducts.Name = "btnProducts";
             this.btnProducts.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
             this.btnProducts.Text = "المنتجات";
+            this.btnProducts.Click += new System.EventHandler(this.btnProducts_Click);
             // 
             // Sales
             // 

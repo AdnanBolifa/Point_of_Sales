@@ -12,7 +12,7 @@ namespace POSFull {
     public partial class ItemsForm : Form {
 
         Items items = new Items();
-        int STATE = 0;          //0 = ADD, 1 = EDIT
+        bool IS_ADD;          //0 = ADD, 1 = EDIT
         public ItemsForm() {
             InitializeComponent();
             Items item = new Items();
@@ -23,7 +23,7 @@ namespace POSFull {
             dataGridView.Columns[1].HeaderText = "اسم الصنف";  
         }
         private void btnAdd_Click(object sender, EventArgs e) {
-            STATE = 0;
+            IS_ADD = true;
             textName.Enabled = true;  textName.Clear(); textName.Select();
             int id = dataGridView.Rows.Count + 1; //Max ID
             textID.Text = items.MaxID().ToString();
@@ -31,7 +31,7 @@ namespace POSFull {
         }
 
         private void btnSave_Click(object sender, EventArgs e) {
-            if (STATE == 0) {    //  Add
+            if (IS_ADD) {    //  Add
                 items.InsertItems(Convert.ToInt32(textID.Text), textName.Text);
                 items.LoadItem();
                 dataGridView.DataSource = items.dtItem;
@@ -48,7 +48,7 @@ namespace POSFull {
         }
 
         private void btnEdit_Click(object sender, EventArgs e) {
-            STATE = 1;
+            IS_ADD = false;
             textID.Text = dataGridView.CurrentRow.Cells[0].Value.ToString();
             textName.Text = dataGridView.CurrentRow.Cells[1].Value.ToString();
             textName.Enabled = true;
@@ -60,7 +60,6 @@ namespace POSFull {
 
             if (result == DialogResult.Yes) {
                 items.DeleteItem(Convert.ToInt32(textID.Text));
-                // Perform the desired action here
             }
             items.LoadItem();
             dataGridView.DataSource = items.dtItem;

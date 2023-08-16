@@ -8,32 +8,34 @@ using System.Threading.Tasks;
 using MySql.Data;
 using MySql.Data.MySqlClient;
 using POSFull;
+using System.Xml.Linq;
 
 namespace POS {
 
     internal class Users {
         public DataTable dt = new DataTable();
         public void Login(string username, string password) {
-            using (MySqlConnection cnn = new MySqlConnection("server=localhost;database=posfulldb;uid=root;pwd=AAb/29/5/2001@!#;")) {
-                MySqlCommand cmd = new MySqlCommand();
-                cmd.Connection = cnn;
-                cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                cmd.CommandText = "loginSP";
-                cmd.Parameters.Add("userParam", MySqlDbType.VarChar, 45).Value = username;
-                cmd.Parameters.Add("passParam", MySqlDbType.VarChar, 45).Value = password;
+            try {
+                Settings.OpenConnection(); // Open the database connection using the Settings class
 
-                cnn.Open();
-                DataTable dtUser = new DataTable();
-                dtUser.Load(cmd.ExecuteReader());
+                using (MySqlCommand cmd = new MySqlCommand()) {
+                    cmd.Connection = Settings.cnn; // Use the existing connection from the Settings class
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandText = "loginSP";
+                    cmd.Parameters.Add(new MySqlParameter("userParam", username));
+                    cmd.Parameters.Add(new MySqlParameter("passParam", password));
 
+                    DataTable dtUser = new DataTable();
+                    dtUser.Load(cmd.ExecuteReader());
 
-                var mainForm = Application.OpenForms["MainForm"] as MainForm;
-
-
-                if (dtUser.Rows.Count > 0)
-                    Enable(mainForm, true);
-                else
-                    MessageBox.Show("Login Failed!");
+                    var mainForm = Application.OpenForms["MainForm"] as MainForm;
+                    if (dtUser.Rows.Count > 0)
+                        Enable(mainForm, true);
+                    else
+                        MessageBox.Show("Login Failed!");
+                }
+            } finally {
+                Settings.CloseConnection(); // Close the database connection using the Settings class
             }
         }
         public void Enable(MainForm mainForm, bool flag) {
