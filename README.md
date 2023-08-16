@@ -1,1 +1,1 @@
-# Point of sales application usings C# windows form.
+# Point of sale application using C# windows form
