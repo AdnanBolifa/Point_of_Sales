@@ -17,7 +17,7 @@ namespace POSFull {
             Items items = new Items();
             items.LoadItem();
             cbItem.DataSource = items.dtItem;
-            cbItem.DisplayMember = "name";
+            cbItem.DisplayMember = "nameItem";
             cbItem.ValueMember = "id";
         }
         public void ClearText() {
