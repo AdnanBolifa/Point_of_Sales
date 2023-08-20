@@ -25,7 +25,7 @@ namespace POSFull {
             }
         }
         public int MaxID() {
-            int id = 0;
+            int id;
 
             Settings.OpenConnection(); // Open the database connection using the Settings class
 
@@ -37,7 +37,7 @@ namespace POSFull {
 
                 id = Convert.ToInt32(cmd.ExecuteScalar());
             } catch (Exception) {
-                throw;
+                id = 0;
             }
 
             Settings.CloseConnection(); // Close the database connection using the Settings class

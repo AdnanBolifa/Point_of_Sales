@@ -29,9 +29,9 @@
             this.btnSave = new System.Windows.Forms.Button();
             this.btnAdd = new System.Windows.Forms.Button();
             this.gridControlProduct = new DevExpress.XtraGrid.GridControl();
-            this.layoutView1 = new DevExpress.XtraGrid.Views.Layout.LayoutView();
-            this.layoutViewCard1 = new DevExpress.XtraGrid.Views.Layout.LayoutViewCard();
+            this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.groupBox = new System.Windows.Forms.GroupBox();
+            this.dataGridViewProduct = new System.Windows.Forms.DataGridView();
             this.btnSelectImage = new System.Windows.Forms.Button();
             this.cbItem = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
@@ -51,10 +51,11 @@
             this.textCode = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.textID = new System.Windows.Forms.TextBox();
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.gridControlProduct)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutViewCard1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             this.groupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProduct)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -112,26 +113,22 @@
             // gridControlProduct
             // 
             this.gridControlProduct.Location = new System.Drawing.Point(12, 12);
-            this.gridControlProduct.MainView = this.layoutView1;
+            this.gridControlProduct.MainView = this.gridView1;
             this.gridControlProduct.Name = "gridControlProduct";
-            this.gridControlProduct.Size = new System.Drawing.Size(649, 346);
+            this.gridControlProduct.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.gridControlProduct.Size = new System.Drawing.Size(698, 346);
             this.gridControlProduct.TabIndex = 32;
             this.gridControlProduct.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
-            this.layoutView1});
+            this.gridView1});
             // 
-            // layoutView1
+            // gridView1
             // 
-            this.layoutView1.GridControl = this.gridControlProduct;
-            this.layoutView1.Name = "layoutView1";
-            this.layoutView1.TemplateCard = this.layoutViewCard1;
-            // 
-            // layoutViewCard1
-            // 
-            this.layoutViewCard1.HeaderButtonsLocation = DevExpress.Utils.GroupElementLocation.AfterText;
-            this.layoutViewCard1.Name = "layoutViewCard1";
+            this.gridView1.GridControl = this.gridControlProduct;
+            this.gridView1.Name = "gridView1";
             // 
             // groupBox
             // 
+            this.groupBox.Controls.Add(this.dataGridViewProduct);
             this.groupBox.Controls.Add(this.btnSelectImage);
             this.groupBox.Controls.Add(this.cbItem);
             this.groupBox.Controls.Add(this.label9);
@@ -160,15 +157,28 @@
             this.groupBox.TabStop = false;
             this.groupBox.Text = "بيانات المنتجات";
             // 
+            // dataGridViewProduct
+            // 
+            this.dataGridViewProduct.AllowUserToAddRows = false;
+            this.dataGridViewProduct.AllowUserToDeleteRows = false;
+            this.dataGridViewProduct.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewProduct.Location = new System.Drawing.Point(20, 233);
+            this.dataGridViewProduct.Name = "dataGridViewProduct";
+            this.dataGridViewProduct.ReadOnly = true;
+            this.dataGridViewProduct.Size = new System.Drawing.Size(177, 33);
+            this.dataGridViewProduct.TabIndex = 53;
+            this.dataGridViewProduct.Visible = false;
+            // 
             // btnSelectImage
             // 
             this.btnSelectImage.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSelectImage.Location = new System.Drawing.Point(47, 183);
+            this.btnSelectImage.Location = new System.Drawing.Point(44, 204);
             this.btnSelectImage.Name = "btnSelectImage";
             this.btnSelectImage.Size = new System.Drawing.Size(133, 23);
             this.btnSelectImage.TabIndex = 52;
             this.btnSelectImage.Text = "...";
             this.btnSelectImage.UseVisualStyleBackColor = true;
+            this.btnSelectImage.Click += new System.EventHandler(this.btnSelectImage_Click);
             // 
             // cbItem
             // 
@@ -194,9 +204,10 @@
             // pBox
             // 
             this.pBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pBox.Location = new System.Drawing.Point(47, 62);
+            this.pBox.Location = new System.Drawing.Point(20, 56);
             this.pBox.Name = "pBox";
-            this.pBox.Size = new System.Drawing.Size(133, 115);
+            this.pBox.Size = new System.Drawing.Size(183, 124);
+            this.pBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pBox.TabIndex = 49;
             this.pBox.TabStop = false;
             // 
@@ -273,6 +284,7 @@
             this.textSale.TabIndex = 42;
             this.textSale.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textSale.TextChanged += new System.EventHandler(this.textPurchase_TextChanged);
+            this.textSale.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textSale_KeyPress);
             // 
             // label4
             // 
@@ -294,6 +306,7 @@
             this.textPurchase.TabIndex = 40;
             this.textPurchase.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textPurchase.TextChanged += new System.EventHandler(this.textPurchase_TextChanged);
+            this.textPurchase.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textPurchase_KeyPress);
             // 
             // label3
             // 
@@ -356,6 +369,10 @@
             this.textID.TabIndex = 34;
             this.textID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // openFileDialog
+            // 
+            this.openFileDialog.FileName = "openFileDialog1";
+            // 
             // ProductsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
@@ -373,10 +390,10 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "شاشة المنتجات";
             ((System.ComponentModel.ISupportInitialize)(this.gridControlProduct)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutViewCard1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
             this.groupBox.ResumeLayout(false);
             this.groupBox.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProduct)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pBox)).EndInit();
             this.ResumeLayout(false);
 
@@ -389,8 +406,6 @@
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnAdd;
         private DevExpress.XtraGrid.GridControl gridControlProduct;
-        private DevExpress.XtraGrid.Views.Layout.LayoutView layoutView1;
-        private DevExpress.XtraGrid.Views.Layout.LayoutViewCard layoutViewCard1;
         private System.Windows.Forms.GroupBox groupBox;
         private System.Windows.Forms.Button btnSelectImage;
         private System.Windows.Forms.ComboBox cbItem;
@@ -411,5 +426,8 @@
         private System.Windows.Forms.TextBox textCode;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textID;
+        private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
+        private System.Windows.Forms.OpenFileDialog openFileDialog;
+        private System.Windows.Forms.DataGridView dataGridViewProduct;
     }
 }

@@ -34,5 +34,9 @@ namespace POSFull {
             ProductsForm productsForm = new ProductsForm();
             productsForm.ShowDialog();
         }
+
+        private void MainForm_Load(object sender, EventArgs e) {
+
+        }
     }
 }
