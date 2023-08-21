@@ -141,6 +141,38 @@ namespace POSFull {
             Settings.CloseConnection(); // Close the database connection using the Settings class
         }
 
+        public void DeleteProduct(string code) {
+            try {
+                Settings.OpenConnection(); // Open the database connection using the Settings class
+
+                using (MySqlCommand cmd = new MySqlCommand()) {
+                    cmd.Connection = Settings.cnn; // Use the existing connection from the Settings class
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandText = "DeleteProductSP";
+                    cmd.Parameters.Add(new MySqlParameter("codeParam", code));
+
+                    cmd.ExecuteNonQuery();
+                }
+            } finally {
+                Settings.CloseConnection(); // Close the database connection using the Settings class
+            }
+        }
+        public void DeleteProductPic(string code) {
+            try {
+                Settings.OpenConnection(); // Open the database connection using the Settings class
+
+                using (MySqlCommand cmd = new MySqlCommand()) {
+                    cmd.Connection = Settings.cnn; // Use the existing connection from the Settings class
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandText = "DeleteProductPicSP";
+                    cmd.Parameters.Add(new MySqlParameter("codeParam", code));
+
+                    cmd.ExecuteNonQuery();
+                }
+            } finally {
+                Settings.CloseConnection(); // Close the database connection using the Settings class
+            }
+        }
         private byte[] CompressImage(byte[] image, long quality) {
             using (MemoryStream inputStream = new MemoryStream(image))
             using (MemoryStream outputStream = new MemoryStream()) {

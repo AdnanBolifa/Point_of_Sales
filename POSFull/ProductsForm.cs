@@ -14,6 +14,7 @@ namespace POSFull {
     public partial class ProductsForm : Form {
 
         bool IS_ADD;
+        bool IS_DELETE_PIC;
         public ProductsForm() {
             InitializeComponent();
             Items items = new Items();
@@ -38,6 +39,7 @@ namespace POSFull {
             textEarn.Clear();
             textQty.Clear();
             pBox.Image = null;
+            textEarn.BackColor = Color.White;
         }
 
         private void btnAdd_Click(object sender, EventArgs e) {
@@ -49,6 +51,7 @@ namespace POSFull {
             IS_ADD = true;
             btnSave.Enabled = true;
             groupBox.Enabled = true;
+            textCode.ReadOnly = false;
         }
 
         private void btnEdit_Click(object sender, EventArgs e) {
@@ -85,7 +88,7 @@ namespace POSFull {
                 return cells.Count > index && cells[index].Value != null ? cells[index].Value.ToString() : string.Empty;
             }
         }
-        
+ 
         private void btnSave_Click(object sender, EventArgs e) {
             if (IS_ADD) {
                 //Insert method
@@ -110,7 +113,8 @@ namespace POSFull {
                         MessageBox.Show("الرجاء كتابة كل الحقول!");
                     }
                 }
-            } else {
+            } 
+            else {
                 //Update || Edit
                 if (pBox.Image == null) {  //update without an image
                     try {
@@ -120,7 +124,8 @@ namespace POSFull {
                     } catch (Exception) {
                         MessageBox.Show("الرجاء كتابة كل الحقول!");
                     }
-                } else { //update with an image.. 
+                } 
+                else { //update with an image.. 
                     MemoryStream stream = new MemoryStream();
                     pBox.Image.Save(stream, pBox.Image.RawFormat);
                     byte[] image = stream.ToArray();
@@ -137,6 +142,7 @@ namespace POSFull {
             ClearText(); 
             btnSave.Enabled = false;
             groupBox.Enabled = false;
+            textCode.ReadOnly = true;
             LoadProduct();
         }
 
@@ -180,13 +186,32 @@ namespace POSFull {
                 e.Handled = true;
             }
         }
-        private void button1_Click(object sender, EventArgs e) {
-            if (dataGridViewProduct.SelectedCells.Count > 0 || dataGridViewProduct.SelectedRows.Count > 0) { 
-                btnEdit.Enabled = true; 
-            } 
-            else { 
-                btnEdit.Enabled = false; 
+
+        private void btnDelete_Click(object sender, EventArgs e) {
+            Products products = new Products();
+            string code = dataGridViewProduct.CurrentRow.Cells[1].Value.ToString();
+            DialogResult result = MessageBox.Show("؟هل انت متأكد من حذف هذا العنصر", "تأكيد", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes) {
+                products.DeleteProduct(code);
             }
+            LoadProduct();
+        }
+
+        private void btnDeletePic_Click(object sender, EventArgs e) {
+            DialogResult result = MessageBox.Show("هل انت متأكد من حذف هذه الصورة؟", "تأكيد", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes) {
+                pBox.Image = null;
+            }
+        }
+
+        private void Cancel_Click(object sender, EventArgs e) {
+            btnSave.Enabled = false;
+            groupBox.Enabled = false;
+            textCode.ReadOnly = true;
+            ClearText();
+            LoadProduct();
         }
     }
 }

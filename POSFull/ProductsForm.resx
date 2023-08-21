@@ -208,6 +208,33 @@
         AABJRU5ErkJggg==
 </value>
   </data>
+  <data name="Cancel.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
+        EQAACxEBf2RfkQAAAXxJREFUSEvtVEtSg0AQhQPBGuIBjCGBwY3RTYbDaHmKxGipq6grvUEgQe5i6ULI
+        BvsNA4UWGUl0kUXeBuieea/pn7bHbqJn2ucDw57Sq15YlNBd077qGfaF/FYD5M/O2duSjVae2bkjk0pE
+        7xv2zZLx9MU5/XDNzqW0rweRjnEhOQ7ykJ4gIHOTiCDHGZzFHdc8mEifEnqffnnORmniB3nCgtXA6NzD
+        XrgFQD4F+WP3hMiDrOGMEkIk9Hj6dDTMX31eFxHkkfRtQ15CdwzruhQJZU2QlpKcfFmLOilB0VoV4cLn
+        KXJdCCrrsxFEMWM/+HzoDvPZYZHzv0ZeRymQzqigEFgw3qaFW0GQVwUlkZgF/5aib+QR4xlN7C0KH1EL
+        FyKthrERIK9akaLOvFqbYo2U3bXdDPzo8xp5CXFmTmmKGd9MBOOOVqSiyjxbv64KnMUdStdY+tajWnY0
+        RMg5mVRRCRHqKiy791bLDsDqlYurTV5FuhCY/N5jp6BpXwctASECGvLsAAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="btnDeletePic.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
+        EQAACxEBf2RfkQAAAg1JREFUSEtjGAVUA3IKWqlAXA7FqVBh8oGMjJaQs2v4Sl+/5G0gbGXrdwYbG6QG
+        pBaqjTAQ1dLisbH16TCzcL9WVTXrf0PjQqy4vX3V/wkTtvxvA9IgtSA96urqvFBjcANjM6f0traV/2fN
+        OkQSbm1b8d/IxL4AagxuIClpzKWrZzfD1MLzs39o7ku/kDy8GKQGpBakB6QXagx+IKOspeLum/q5qHbp
+        //LmtXhxSf2K/35hhR9AeqDaCQN5eX0BN5/kl9lls//X5E34X102C8NgkBhIDuQIn+C8p0pKxvxQ7UQB
+        RhevpHupeRP/Nyc3/J/vHfO/smQm3HAQGyQGkkvJnfDfxTv5HkgPRCuRwNkz8XJSTh/YwNaE6v+LfWL/
+        15RM/19VMuP/IiC7Lb4KLAdSA3TMJag24oGDe+xJmAUwS0CuBmEQGyaelN37H6QWqo14YOcSuR/ZAlCw
+        LAUaDsLIwQWywN4lch9UG/HA2jFsS1r+ZLjhkGCp/N+WCAmuamBwwSywdgzdAtVGPDC39l9dULMIxXCY
+        q5EtKahe/N/cxn8VVBvxwMTcawHIdU0gVyfVwg2HWwIUa46rALNBaqHaiAeGpq79CRldGAaj45L6lf8N
+        TF36oNqIB3rGjrkJmYQtyAIGoY6hfQ5UG/EAlDNNrX0PuXonXQKlc2wYJAdSo6KiwgfVNgoGHWBgAAC3
+        4Mal1fBb2gAAAABJRU5ErkJggg==
+</value>
+  </data>
   <metadata name="openFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>

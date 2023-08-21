@@ -31,7 +31,8 @@
             this.gridControlProduct = new DevExpress.XtraGrid.GridControl();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.groupBox = new System.Windows.Forms.GroupBox();
-            this.dataGridViewProduct = new System.Windows.Forms.DataGridView();
+            this.Cancel = new System.Windows.Forms.Button();
+            this.btnDeletePic = new System.Windows.Forms.Button();
             this.btnSelectImage = new System.Windows.Forms.Button();
             this.cbItem = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
@@ -51,12 +52,13 @@
             this.textCode = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.textID = new System.Windows.Forms.TextBox();
+            this.dataGridViewProduct = new System.Windows.Forms.DataGridView();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.gridControlProduct)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             this.groupBox.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProduct)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProduct)).BeginInit();
             this.SuspendLayout();
             // 
             // btnDelete
@@ -70,6 +72,7 @@
             this.btnDelete.TabIndex = 16;
             this.btnDelete.Text = "حذف";
             this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // btnEdit
             // 
@@ -128,7 +131,8 @@
             // 
             // groupBox
             // 
-            this.groupBox.Controls.Add(this.dataGridViewProduct);
+            this.groupBox.Controls.Add(this.Cancel);
+            this.groupBox.Controls.Add(this.btnDeletePic);
             this.groupBox.Controls.Add(this.btnSelectImage);
             this.groupBox.Controls.Add(this.cbItem);
             this.groupBox.Controls.Add(this.label9);
@@ -157,24 +161,37 @@
             this.groupBox.TabStop = false;
             this.groupBox.Text = "بيانات المنتجات";
             // 
-            // dataGridViewProduct
+            // Cancel
             // 
-            this.dataGridViewProduct.AllowUserToAddRows = false;
-            this.dataGridViewProduct.AllowUserToDeleteRows = false;
-            this.dataGridViewProduct.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewProduct.Location = new System.Drawing.Point(20, 233);
-            this.dataGridViewProduct.Name = "dataGridViewProduct";
-            this.dataGridViewProduct.ReadOnly = true;
-            this.dataGridViewProduct.Size = new System.Drawing.Size(177, 33);
-            this.dataGridViewProduct.TabIndex = 53;
-            this.dataGridViewProduct.Visible = false;
+            this.Cancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Cancel.Image = ((System.Drawing.Image)(resources.GetObject("Cancel.Image")));
+            this.Cancel.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.Cancel.Location = new System.Drawing.Point(66, 224);
+            this.Cancel.Name = "Cancel";
+            this.Cancel.Size = new System.Drawing.Size(94, 28);
+            this.Cancel.TabIndex = 55;
+            this.Cancel.Text = "الغاء الامر";
+            this.Cancel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.Cancel.UseVisualStyleBackColor = true;
+            this.Cancel.Click += new System.EventHandler(this.Cancel_Click);
+            // 
+            // btnDeletePic
+            // 
+            this.btnDeletePic.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDeletePic.Image = ((System.Drawing.Image)(resources.GetObject("btnDeletePic.Image")));
+            this.btnDeletePic.Location = new System.Drawing.Point(21, 186);
+            this.btnDeletePic.Name = "btnDeletePic";
+            this.btnDeletePic.Size = new System.Drawing.Size(25, 28);
+            this.btnDeletePic.TabIndex = 54;
+            this.btnDeletePic.UseVisualStyleBackColor = true;
+            this.btnDeletePic.Click += new System.EventHandler(this.btnDeletePic_Click);
             // 
             // btnSelectImage
             // 
             this.btnSelectImage.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSelectImage.Location = new System.Drawing.Point(44, 204);
+            this.btnSelectImage.Location = new System.Drawing.Point(52, 186);
             this.btnSelectImage.Name = "btnSelectImage";
-            this.btnSelectImage.Size = new System.Drawing.Size(133, 23);
+            this.btnSelectImage.Size = new System.Drawing.Size(151, 28);
             this.btnSelectImage.TabIndex = 52;
             this.btnSelectImage.Text = "...";
             this.btnSelectImage.UseVisualStyleBackColor = true;
@@ -369,6 +386,17 @@
             this.textID.TabIndex = 34;
             this.textID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // dataGridViewProduct
+            // 
+            this.dataGridViewProduct.AllowUserToAddRows = false;
+            this.dataGridViewProduct.AllowUserToDeleteRows = false;
+            this.dataGridViewProduct.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewProduct.Location = new System.Drawing.Point(22, 662);
+            this.dataGridViewProduct.Name = "dataGridViewProduct";
+            this.dataGridViewProduct.ReadOnly = true;
+            this.dataGridViewProduct.Size = new System.Drawing.Size(157, 31);
+            this.dataGridViewProduct.TabIndex = 53;
+            // 
             // openFileDialog
             // 
             this.openFileDialog.FileName = "openFileDialog1";
@@ -379,13 +407,16 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(722, 660);
             this.Controls.Add(this.groupBox);
+            this.Controls.Add(this.dataGridViewProduct);
             this.Controls.Add(this.gridControlProduct);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnEdit);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnAdd);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Margin = new System.Windows.Forms.Padding(4);
+            this.MinimizeBox = false;
             this.Name = "ProductsForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "شاشة المنتجات";
@@ -393,8 +424,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
             this.groupBox.ResumeLayout(false);
             this.groupBox.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProduct)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProduct)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -429,5 +460,7 @@
         private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.DataGridView dataGridViewProduct;
+        private System.Windows.Forms.Button btnDeletePic;
+        private System.Windows.Forms.Button Cancel;
     }
 }
