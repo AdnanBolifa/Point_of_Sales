@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace POSFull {
     public partial class CustomerForm : Form {
@@ -24,6 +25,13 @@ namespace POSFull {
         }
         public CustomerForm() {
             InitializeComponent();
+            Customers customers = new Customers();
+            customers.LoadPublic("loadCustomersSP");
+            dataGridView.DataSource = customers.dtPublic;
+            dataGridView.Select();
+            dataGridView.Columns[1].HeaderText = "اسم العميل";
+            dataGridView.Columns[2].HeaderText = "رقم العميل";
+            dataGridView.Columns[3].HeaderText = "عنوان العميل";
         }
 
         enum OperationMode {
@@ -43,6 +51,9 @@ namespace POSFull {
             txtEnable(true);
             txtClear();
             currentMode = OperationMode.Edit;
+            txtName.Text = dataGridView.CurrentRow.Cells[1].Value.ToString();
+            txtPhone.Text = dataGridView.CurrentRow.Cells[2].Value.ToString();
+            txtAddress.Text = dataGridView.CurrentRow.Cells[3].Value.ToString();
         }
 
         private void btnSave_Click(object sender, EventArgs e) {
@@ -58,14 +69,29 @@ namespace POSFull {
                     break;
                 case OperationMode.Edit:
                     // Edit function here
+                    int id = (int)dataGridView.CurrentRow.Cells[0].Value;
+                    customer.EditCustomer(id, txtName.Text, txtPhone.Text, txtAddress.Text);
                     MessageBox.Show("تم التعديل بنجاح!");
                     break;
             }
             currentMode = OperationMode.None; // Reset the mode after processing
+            customer.LoadPublic("loadCustomersSP");
+            dataGridView.DataSource= customer.dtPublic;
             txtClear();
             txtEnable(false);
         }
 
+        private void btnDelete_Click(object sender, EventArgs e) {
+            Customers customers = new Customers();
+            int id = (int)dataGridView.CurrentRow.Cells[0].Value;
+            DialogResult result = MessageBox.Show("هل انت متأكد من حذف هذا العنصر", "تأكيد", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes) {
+                customers.DeleteCustomer(id);
+            }
+            customers.LoadPublic("loadCustomersSP");
+            dataGridView.DataSource = customers.dtPublic;
+        }
         private void txtPhone_KeyDown(object sender, KeyEventArgs e) {
             if (e.KeyCode == Keys.Enter) {
                 txtAddress.Select();
@@ -82,6 +108,12 @@ namespace POSFull {
             if (e.KeyCode == Keys.Enter) {
                 btnSave.PerformClick();
             }
+        }
+
+        private void txtSearch_TextChanged(object sender, EventArgs e) {
+            Customers customers = new Customers();
+            customers.SearchCustomer(txtSearch.Text);
+            dataGridView.DataSource = customers.dtCustomerSearch;
         }
     }
 }

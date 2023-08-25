@@ -49,6 +49,7 @@
             this.txtSearch.TabIndex = 0;
             this.txtSearch.Text = " ";
             this.txtSearch.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
             // 
             // pictureBox1
             // 
@@ -145,6 +146,7 @@
             this.btnDelete.TabIndex = 20;
             this.btnDelete.Text = "حذف";
             this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // btnEdit
             // 
