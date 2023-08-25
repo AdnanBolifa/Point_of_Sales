@@ -38,5 +38,8 @@ namespace POSFull {
         private void MainForm_Load(object sender, EventArgs e) {
 
         }
+
+        private void btnSalesManegments_Click(object sender, EventArgs e) {
+        }
     }
 }

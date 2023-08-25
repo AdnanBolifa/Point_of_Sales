@@ -13,8 +13,6 @@ using System.Xml.Linq;
 namespace POSFull {
     public partial class ProductsForm : Form {
 
-        bool IS_ADD;
-        bool IS_DELETE_PIC;
         public ProductsForm() {
             InitializeComponent();
             Items items = new Items();
@@ -42,109 +40,135 @@ namespace POSFull {
             textEarn.BackColor = Color.White;
         }
 
+        enum EditMode {
+            None,
+            Add,
+            Edit
+        }
+
+        private EditMode currentEditMode = EditMode.None;
+
         private void btnAdd_Click(object sender, EventArgs e) {
             ClearText();
             Products products = new Products();
             int max = products.MaxIDPublic("MaxIDProductSP");
             textID.Text = max.ToString();
 
-            IS_ADD = true;
-            btnSave.Enabled = true;
-            groupBox.Enabled = true;
+            currentEditMode = EditMode.Add;
+            EnableControlsForEditMode(true);
             textCode.ReadOnly = false;
         }
 
         private void btnEdit_Click(object sender, EventArgs e) {
-            IS_ADD = false;
-            btnSave.Enabled = true;
-            groupBox.Enabled = true;
+            currentEditMode = EditMode.Edit;
+            EnableControlsForEditMode(true);
             textCode.ReadOnly = true;
 
             try {
                 if (dataGridViewProduct.CurrentRow != null) {
                     var cells = dataGridViewProduct.CurrentRow.Cells;
-
-                    textID.Text = TryGetValue(cells, 0);
-                    textCode.Text = TryGetValue(cells, 1);
-                    textName.Text = TryGetValue(cells, 2);
-                    textPurchase.Text = TryGetValue(cells, 3);
-                    textSale.Text = TryGetValue(cells, 4);
-                    textEarn.Text = TryGetValue(cells, 5);
-                    textQty.Text = TryGetValue(cells, 6);
-                    cbItem.Text = TryGetValue(cells, 8);
-
-                    Products products = new Products();
-                    byte[] image = (byte[])products.getImageProduct(TryGetValue(cells, 1)).Rows[0][0];
-                    MemoryStream memoryStream = new MemoryStream(image);
-                    pBox.Image = Image.FromStream(memoryStream);
+                    UpdateTextControlsFromCells(cells);
+                    LoadImageFromCells(cells);
                 } else {
                     pBox.Image = null;
                 }
             } catch (Exception) {
                 pBox.Image = null;
             }
-
-            string TryGetValue(DataGridViewCellCollection cells, int index) {
-                return cells.Count > index && cells[index].Value != null ? cells[index].Value.ToString() : string.Empty;
-            }
         }
- 
+
         private void btnSave_Click(object sender, EventArgs e) {
-            if (IS_ADD) {
-                //Insert method
-                if (pBox.Image == null) {  //Insert without an image
-                    try {
-                        Products products = new Products();
-                        products.InsertProductNotImage(Convert.ToInt32(textID.Text), textCode.Text, textName.Text, Convert.ToDouble(textPurchase.Text), Convert.ToDouble(textSale.Text), Convert.ToDouble(textEarn.Text), Convert.ToDouble(textQty.Text), Convert.ToInt32(cbItem.SelectedValue));
+            if (currentEditMode == EditMode.None) {
+                MessageBox.Show("لم يتم تنفيذ أي عملية!");
+                return;
+            }
+
+            if (string.IsNullOrEmpty(textName.Text) || string.IsNullOrEmpty(textPurchase.Text) ||string.IsNullOrEmpty(textSale.Text) || string.IsNullOrEmpty(textEarn.Text) ||string.IsNullOrEmpty(textQty.Text) ||cbItem.SelectedValue == null ||string.IsNullOrEmpty(cbItem.SelectedValue.ToString())) {
+                MessageBox.Show("الرجاء كتابة كل الحقول!");
+                return;
+            }
+
+
+            Products products = new Products();
+            string code = textCode.Text;
+            string name = textName.Text;
+            double purchase = Convert.ToDouble(textPurchase.Text);
+            double sale = Convert.ToDouble(textSale.Text);
+            double earn = Convert.ToDouble(textEarn.Text);
+            double qty = Convert.ToDouble(textQty.Text);
+            int itemID = Convert.ToInt32(cbItem.SelectedValue);
+
+            byte[] image = null;
+            if (pBox.Image != null) {
+                MemoryStream stream = new MemoryStream();
+                pBox.Image.Save(stream, pBox.Image.RawFormat);
+                image = stream.ToArray();
+            }
+
+            if (currentEditMode == EditMode.Add) {
+                try {
+                    if (image == null) {
+                        products.InsertProductNotImage(Convert.ToInt32(textID.Text), code, name, purchase, sale, earn, qty, itemID);
                         MessageBox.Show("تمت الاضافة بنجاح -- بدون صورة!");
-                    } catch (Exception) {
-                        MessageBox.Show("الرجاء كتابة كل الحقول!");
-                    }
-                } else { //Insert with an image.. 
-                    MemoryStream stream = new MemoryStream();
-                    pBox.Image.Save(stream, pBox.Image.RawFormat);
-                    byte[] image = stream.ToArray();
-
-                    try {
-                        Products products = new Products();
-                        products.InsertProductImage(Convert.ToInt32(textID.Text), textCode.Text, textName.Text, Convert.ToDouble(textPurchase.Text), Convert.ToDouble(textSale.Text), Convert.ToDouble(textEarn.Text), Convert.ToDouble(textQty.Text), image, Convert.ToInt32(cbItem.SelectedValue));
+                    } else {
+                        products.InsertProductImage(Convert.ToInt32(textID.Text), code, name, purchase, sale, earn, qty, image, itemID);
                         MessageBox.Show("تمت الاضافة بنجاح -- بصورة!");
-                    } catch (Exception) {
-                        MessageBox.Show("الرجاء كتابة كل الحقول!");
                     }
+                } catch (Exception) {
+                    MessageBox.Show("الرجاء كتابة كل الحقول!");
                 }
-            } 
-            else {
-                //Update || Edit
-                if (pBox.Image == null) {  //update without an image
-                    try {
-                        Products products = new Products();
-                        products.UpdateProductNotImage(textName.Text, Convert.ToDouble(textPurchase.Text), Convert.ToDouble(textSale.Text), Convert.ToDouble(textEarn.Text), Convert.ToDouble(textQty.Text), Convert.ToInt32(cbItem.SelectedValue), textCode.Text);
+            } else if (currentEditMode == EditMode.Edit) {
+                try {
+                    if (image == null) {
+                        products.UpdateProductNotImage(name, purchase, sale, earn, qty, itemID, code);
                         MessageBox.Show("تم التعديل بنجاح -- بدون صورة!");
-                    } catch (Exception) {
-                        MessageBox.Show("الرجاء كتابة كل الحقول!");
-                    }
-                } 
-                else { //update with an image.. 
-                    MemoryStream stream = new MemoryStream();
-                    pBox.Image.Save(stream, pBox.Image.RawFormat);
-                    byte[] image = stream.ToArray();
-
-                    try {
-                        Products products = new Products();
-                        products.UpdateProductImage(textName.Text, Convert.ToDouble(textPurchase.Text), Convert.ToDouble(textSale.Text), Convert.ToDouble(textEarn.Text), Convert.ToDouble(textQty.Text), image, Convert.ToInt32(cbItem.SelectedValue), textCode.Text);
+                    } else {
+                        products.UpdateProductImage(name, purchase, sale, earn, qty, image, itemID, code);
                         MessageBox.Show("تم التعديل بنجاح -- بصورة!");
-                    } catch (Exception) {
-                        MessageBox.Show("الرجاء كتابة كل الحقول!");
                     }
+                } catch (Exception) {
+                    MessageBox.Show("الرجاء كتابة كل الحقول!");
                 }
             }
-            ClearText(); 
+
+            ClearText();
             btnSave.Enabled = false;
-            groupBox.Enabled = false;
+            EnableControlsForEditMode(false);
             textCode.ReadOnly = true;
             LoadProduct();
         }
+
+        private void EnableControlsForEditMode(bool enable) {
+            btnSave.Enabled = enable;
+            groupBox.Enabled = enable;
+        }
+
+        private void UpdateTextControlsFromCells(DataGridViewCellCollection cells) {
+            textID.Text = TryGetValue(cells, 0);
+            textCode.Text = TryGetValue(cells, 1);
+            textName.Text = TryGetValue(cells, 2);
+            textPurchase.Text = TryGetValue(cells, 3);
+            textSale.Text = TryGetValue(cells, 4);
+            textEarn.Text = TryGetValue(cells, 5);
+            textQty.Text = TryGetValue(cells, 6);
+            cbItem.Text = TryGetValue(cells, 8);
+        }
+
+        private void LoadImageFromCells(DataGridViewCellCollection cells) {
+            try {
+                Products products = new Products();
+                byte[] image = (byte[])products.getImageProduct(TryGetValue(cells, 1)).Rows[0][0];
+                MemoryStream memoryStream = new MemoryStream(image);
+                pBox.Image = Image.FromStream(memoryStream);
+            } catch (Exception) {
+                pBox.Image = null;
+            }
+        }
+
+        private string TryGetValue(DataGridViewCellCollection cells, int index) {
+            return cells.Count > index && cells[index].Value != null ? cells[index].Value.ToString() : string.Empty;
+        }
+
 
         private void textPurchase_TextChanged(object sender, EventArgs e) {
             try {

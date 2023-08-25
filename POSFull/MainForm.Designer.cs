@@ -125,6 +125,7 @@
             this.btnSalesManegments,
             this.btnSaleOrders});
             this.Sales.Enabled = false;
+            this.Sales.Expanded = true;
             this.Sales.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("Sales.ImageOptions.Image")));
             this.Sales.Name = "Sales";
             this.Sales.Text = "المبيعات";
@@ -135,6 +136,7 @@
             this.btnSalesManegments.Name = "btnSalesManegments";
             this.btnSalesManegments.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
             this.btnSalesManegments.Text = "ادارة المبيعات";
+            this.btnSalesManegments.Click += new System.EventHandler(this.btnSalesManegments_Click);
             // 
             // btnSaleOrders
             // 

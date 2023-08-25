@@ -12,7 +12,6 @@ namespace POSFull {
     public partial class ItemsForm : Form {
 
         Items items = new Items();
-        bool IS_ADD;          //0 = ADD, 1 = EDIT
         public ItemsForm() {
             InitializeComponent();
             Items item = new Items();
@@ -22,37 +21,65 @@ namespace POSFull {
             dataGridView.Columns[0].HeaderText = "رقم الصنف";
             dataGridView.Columns[1].HeaderText = "اسم الصنف";  
         }
-        private void btnAdd_Click(object sender, EventArgs e) {
-            IS_ADD = true;
-            textName.Enabled = true;  textName.Clear(); textName.Select();
-            int id = dataGridView.Rows.Count + 1; //Max ID
-            textID.Text = items.MaxID().ToString();
-
+        enum EditMode {
+            None,
+            Add,
+            Edit
         }
 
-        private void btnSave_Click(object sender, EventArgs e) {
-            if (IS_ADD) {    //  Add
-                items.InsertItems(Convert.ToInt32(textID.Text), textName.Text);
-                items.LoadItem();
-                dataGridView.DataSource = items.dtItem;
-                MessageBox.Show("تمت الاضافة بنجاح!");
-                textName.Clear(); textName.Enabled = false; textID.Clear();
-            } else { //Update
-                items.EditItem(Convert.ToInt32(textID.Text), textName.Text);
-                items.LoadItem();
-                dataGridView.DataSource = items.dtItem;
-                MessageBox.Show("تم التعديل بنجاح!");
-                textName.Clear(); textName.Enabled = false; textID.Clear();
-            }
-            
+        private EditMode currentEditMode = EditMode.None;
+
+        private void btnAdd_Click(object sender, EventArgs e) {
+            currentEditMode = EditMode.Add;
+            textName.Enabled = true;
+            textName.Clear();
+            textName.Select();
+            int id = dataGridView.Rows.Count + 1; // Max ID
+            textID.Text = items.MaxID().ToString();
         }
 
         private void btnEdit_Click(object sender, EventArgs e) {
-            IS_ADD = false;
+            currentEditMode = EditMode.Edit;
             textID.Text = dataGridView.CurrentRow.Cells[0].Value.ToString();
             textName.Text = dataGridView.CurrentRow.Cells[1].Value.ToString();
             textName.Enabled = true;
         }
+
+        private void btnSave_Click(object sender, EventArgs e) {
+            if (string.IsNullOrEmpty(textID.Text) || string.IsNullOrEmpty(textName.Text)) {
+                MessageBox.Show("يرجى إدخال بيانات صحيحة قبل الحفظ.");
+                return;
+            }
+
+            if (!int.TryParse(textID.Text, out int id)) {
+                MessageBox.Show("رقم يجب أن يكون رقمًا صحيحًا.");
+                return;
+            }
+
+            string name = textName.Text;
+
+            switch (currentEditMode) {
+                case EditMode.None:
+                    MessageBox.Show("لم يتم تنفيذ أي عملية!");
+                    break;
+                case EditMode.Add:
+                    items.InsertItems(id, name);
+                    MessageBox.Show("تمت الإضافة بنجاح!");
+                    break;
+                case EditMode.Edit:
+                    items.EditItem(id, name);
+                    MessageBox.Show("تم التعديل بنجاح!");
+                    break;
+            }
+
+            items.LoadItem();
+            dataGridView.DataSource = items.dtItem;
+            textName.Clear();
+            textName.Enabled = false;
+            textID.Clear();
+            currentEditMode = EditMode.None;
+        }
+
 
         private void btnDelete_Click(object sender, EventArgs e) {
             textID.Text = dataGridView.CurrentRow.Cells[0].Value.ToString();
