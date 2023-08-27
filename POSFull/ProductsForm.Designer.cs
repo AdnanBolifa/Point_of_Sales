@@ -391,10 +391,10 @@
             this.dataGridViewProduct.AllowUserToAddRows = false;
             this.dataGridViewProduct.AllowUserToDeleteRows = false;
             this.dataGridViewProduct.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewProduct.Location = new System.Drawing.Point(22, 662);
+            this.dataGridViewProduct.Location = new System.Drawing.Point(22, 659);
             this.dataGridViewProduct.Name = "dataGridViewProduct";
             this.dataGridViewProduct.ReadOnly = true;
-            this.dataGridViewProduct.Size = new System.Drawing.Size(157, 31);
+            this.dataGridViewProduct.Size = new System.Drawing.Size(157, 48);
             this.dataGridViewProduct.TabIndex = 53;
             // 
             // openFileDialog
@@ -405,7 +405,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(722, 660);
+            this.ClientSize = new System.Drawing.Size(722, 655);
             this.Controls.Add(this.groupBox);
             this.Controls.Add(this.dataGridViewProduct);
             this.Controls.Add(this.gridControlProduct);

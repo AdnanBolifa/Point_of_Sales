@@ -15,8 +15,8 @@ namespace POSFull {
         public ItemsForm() {
             InitializeComponent();
             Items item = new Items();
-            item.LoadItem();
-            dataGridView.DataSource = item.dtItem;
+            item.LoadPublic("loadItemSP");
+            dataGridView.DataSource = item.dtPublic;
             dataGridView.Select();
             dataGridView.Columns[0].HeaderText = "رقم الصنف";
             dataGridView.Columns[1].HeaderText = "اسم الصنف";  
@@ -34,8 +34,7 @@ namespace POSFull {
             textName.Enabled = true;
             textName.Clear();
             textName.Select();
-            int id = dataGridView.Rows.Count + 1; // Max ID
-            textID.Text = items.MaxID().ToString();
+            textID.Text = items.MaxIDPublic("MaxIDitemSP").ToString();
         }
 
         private void btnEdit_Click(object sender, EventArgs e) {
@@ -72,15 +71,13 @@ namespace POSFull {
                     break;
             }
 
-            items.LoadItem();
-            dataGridView.DataSource = items.dtItem;
+            items.LoadPublic("loadItemSP");
+            dataGridView.DataSource = items.dtPublic;
             textName.Clear();
             textName.Enabled = false;
             textID.Clear();
             currentEditMode = EditMode.None;
         }
-
-
         private void btnDelete_Click(object sender, EventArgs e) {
             textID.Text = dataGridView.CurrentRow.Cells[0].Value.ToString();
             DialogResult result = MessageBox.Show("هل انت متأكد من حذف هذا العنصر", "تأكيد", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -88,8 +85,8 @@ namespace POSFull {
             if (result == DialogResult.Yes) {
                 items.DeleteItem(Convert.ToInt32(textID.Text));
             }
-            items.LoadItem();
-            dataGridView.DataSource = items.dtItem;
+            items.LoadPublic("loadItemSP");
+            dataGridView.DataSource = items.dtPublic;
         }
     }
 }

@@ -9,13 +9,14 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
-namespace POSFull {
+namespace POSFull { 
     public partial class CustomerForm : Form {
 
         void txtClear() {
             txtAddress.Clear();
             txtPhone.Clear();
             txtName.Clear();
+            txtID.Clear();
             txtName.Select();
         }
         void txtEnable(bool flag) {
@@ -28,7 +29,7 @@ namespace POSFull {
             Customers customers = new Customers();
             customers.LoadPublic("loadCustomersSP");
             dataGridView.DataSource = customers.dtPublic;
-            dataGridView.Select();
+            txtSearch.Select();
             dataGridView.Columns[1].HeaderText = "اسم العميل";
             dataGridView.Columns[2].HeaderText = "رقم العميل";
             dataGridView.Columns[3].HeaderText = "عنوان العميل";
@@ -45,12 +46,15 @@ namespace POSFull {
             txtEnable(true);
             txtClear();
             currentMode = OperationMode.Add;
+            Customers customers = new Customers();
+            txtID.Text = customers.MaxIDPublic("MaxIDCustomersSP").ToString();
         }
 
         private void btnEdit_Click(object sender, EventArgs e) {
             txtEnable(true);
             txtClear();
             currentMode = OperationMode.Edit;
+            txtID.Text = dataGridView.CurrentRow.Cells[0].Value.ToString();
             txtName.Text = dataGridView.CurrentRow.Cells[1].Value.ToString();
             txtPhone.Text = dataGridView.CurrentRow.Cells[2].Value.ToString();
             txtAddress.Text = dataGridView.CurrentRow.Cells[3].Value.ToString();
@@ -64,7 +68,7 @@ namespace POSFull {
                     break;
                 case OperationMode.Add:
                     // Add function here
-                    customer.InsertCustomer(txtName.Text, txtPhone.Text, txtAddress.Text);
+                    customer.InsertCustomer(Convert.ToInt32(txtID.Text), txtName.Text, txtPhone.Text, txtAddress.Text);
                     MessageBox.Show("تمت الإضافة بنجاح!");
                     break;
                 case OperationMode.Edit:
@@ -114,6 +118,18 @@ namespace POSFull {
             Customers customers = new Customers();
             customers.SearchCustomer(txtSearch.Text);
             dataGridView.DataSource = customers.dtCustomerSearch;
+        }
+
+        private void btnDeleteAll_Click(object sender, EventArgs e) {
+            Customers customers = new Customers();
+            DialogResult result = MessageBox.Show("هل انت متأكد من حذف هذا العنصر", "تأكيد", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes) {
+                customers.DeleteAllCustomer();
+            }
+            customers.LoadPublic("loadCustomersSP");
+            dataGridView.DataSource = customers.dtPublic;
+
         }
     }
 }

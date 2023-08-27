@@ -16,8 +16,8 @@ namespace POSFull {
         public ProductsForm() {
             InitializeComponent();
             Items items = new Items();
-            items.LoadItem();
-            cbItem.DataSource = items.dtItem;
+            items.LoadPublic("loadItemSP");
+            cbItem.DataSource = items.dtPublic;
             cbItem.DisplayMember = "nameItem";
             cbItem.ValueMember = "id";
             LoadProduct();

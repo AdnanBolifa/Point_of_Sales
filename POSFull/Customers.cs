@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace POSFull {
     internal class Customers : PublicFun {
-        public void InsertCustomer(string name, string phone, string address) {
+        public void InsertCustomer(int id,string name, string phone, string address) {
             try {
                 Settings.OpenConnection(); // Open the database connection using the Settings class
 
@@ -16,6 +16,7 @@ namespace POSFull {
                     cmd.Connection = Settings.cnn; // Use the existing connection from the Settings class
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.CommandText = "InsertCustomersSP";
+                    cmd.Parameters.Add(new MySqlParameter("idParam", id));
                     cmd.Parameters.Add(new MySqlParameter("nameParam", name));
                     cmd.Parameters.Add(new MySqlParameter("phoneParam", phone));
                     cmd.Parameters.Add(new MySqlParameter("addressParam", address));
@@ -72,6 +73,21 @@ namespace POSFull {
                     cmd.CommandText = "SearchCustomersSP";
                     cmd.Parameters.Add(new MySqlParameter("txtParam", txt));
                     dtCustomerSearch.Load(cmd.ExecuteReader());
+                }
+            } finally {
+                Settings.CloseConnection(); // Close the database connection using the Settings class
+            }
+        }
+        public void DeleteAllCustomer() {
+            try {
+                Settings.OpenConnection(); // Open the database connection using the Settings class
+
+                using (MySqlCommand cmd = new MySqlCommand()) {
+                    cmd.Connection = Settings.cnn; // Use the existing connection from the Settings class
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandText = "DeleteAllCustomersSP";
+
+                    cmd.ExecuteNonQuery();
                 }
             } finally {
                 Settings.CloseConnection(); // Close the database connection using the Settings class
