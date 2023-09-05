@@ -96,6 +96,7 @@
             this.txtPhone.Size = new System.Drawing.Size(206, 22);
             this.txtPhone.TabIndex = 5;
             this.txtPhone.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtPhone_KeyDown);
+            this.txtPhone.Validating += new System.ComponentModel.CancelEventHandler(this.txtPhone_Validating);
             // 
             // txtName
             // 

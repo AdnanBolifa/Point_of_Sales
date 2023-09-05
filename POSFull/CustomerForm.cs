@@ -61,6 +61,11 @@ namespace POSFull {
         }
 
         private void btnSave_Click(object sender, EventArgs e) {
+            if (string.IsNullOrEmpty(txtPhone.Text) || string.IsNullOrEmpty(txtName.Text) || string.IsNullOrEmpty(txtAddress.Text)) {
+                MessageBox.Show("لا يمكن حفظ قيم فارغة");
+                return;
+            }
+
             Customers customer = new Customers();  
             switch (currentMode) {
                 case OperationMode.None:
@@ -117,7 +122,7 @@ namespace POSFull {
         private void txtSearch_TextChanged(object sender, EventArgs e) {
             Customers customers = new Customers();
             customers.SearchCustomer(txtSearch.Text);
-            dataGridView.DataSource = customers.dtCustomerSearch;
+            dataGridView.DataSource = customers.dtCustomer;
         }
 
         private void btnDeleteAll_Click(object sender, EventArgs e) {
@@ -130,6 +135,18 @@ namespace POSFull {
             customers.LoadPublic("loadCustomersSP");
             dataGridView.DataSource = customers.dtPublic;
 
+        }
+
+        private void txtPhone_Validating(object sender, CancelEventArgs e) {
+            Customers customers = new Customers();
+            DataTable dataTable = new DataTable();
+            dataTable = customers.CheckPhone(txtPhone.Text);
+            if (dataTable.Rows.Count > 0) {
+                MessageBox.Show("الرقم موجود من قبل:" + txtPhone.Text);
+                txtPhone.Clear();
+                txtPhone.Select(); 
+            }
+                
         }
     }
 }

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace POSFull {
     internal class Customers : PublicFun {
+        public DataTable dtCustomer = new DataTable();
         public void InsertCustomer(int id,string name, string phone, string address) {
             try {
                 Settings.OpenConnection(); // Open the database connection using the Settings class
@@ -62,7 +63,6 @@ namespace POSFull {
                 Settings.CloseConnection(); // Close the database connection using the Settings class
             }
         }
-        public DataTable dtCustomerSearch = new DataTable();
         public void SearchCustomer(string txt) {
             try {
                 Settings.OpenConnection(); // Open the database connection using the Settings class
@@ -72,7 +72,7 @@ namespace POSFull {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.CommandText = "SearchCustomersSP";
                     cmd.Parameters.Add(new MySqlParameter("txtParam", txt));
-                    dtCustomerSearch.Load(cmd.ExecuteReader());
+                    dtCustomer.Load(cmd.ExecuteReader());
                 }
             } finally {
                 Settings.CloseConnection(); // Close the database connection using the Settings class
@@ -92,6 +92,23 @@ namespace POSFull {
             } finally {
                 Settings.CloseConnection(); // Close the database connection using the Settings class
             }
+        }
+        public DataTable CheckPhone(string phone) {
+            try {
+                Settings.OpenConnection(); // Open the database connection using the Settings class
+
+                using (MySqlCommand cmd = new MySqlCommand()) {
+                    cmd.Connection = Settings.cnn; // Use the existing connection from the Settings class
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandText = "CheckPhoneSP";
+                    cmd.Parameters.Add(new MySqlParameter("phoneParam", phone));
+
+                    dtCustomer.Load(cmd.ExecuteReader());
+                }
+            } finally {
+                Settings.CloseConnection(); // Close the database connection using the Settings class
+            }
+            return dtCustomer;
         }
     }
 }

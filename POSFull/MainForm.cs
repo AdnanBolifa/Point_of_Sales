@@ -41,5 +41,10 @@ namespace POSFull {
 
         private void btnSalesManegments_Click(object sender, EventArgs e) {
         }
+
+        private void customersManagement_Click(object sender, EventArgs e) {
+            CustomerForm customerForm = new CustomerForm();
+            customerForm.ShowDialog();
+        }
     }
 }

@@ -125,7 +125,6 @@
             this.btnSalesManegments,
             this.btnSaleOrders});
             this.Sales.Enabled = false;
-            this.Sales.Expanded = true;
             this.Sales.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("Sales.ImageOptions.Image")));
             this.Sales.Name = "Sales";
             this.Sales.Text = "المبيعات";
@@ -190,6 +189,7 @@
             this.customers.Elements.AddRange(new DevExpress.XtraBars.Navigation.AccordionControlElement[] {
             this.customersManagement});
             this.customers.Enabled = false;
+            this.customers.Expanded = true;
             this.customers.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("customers.ImageOptions.Image")));
             this.customers.Name = "customers";
             this.customers.Text = "العملاء";
@@ -200,6 +200,7 @@
             this.customersManagement.Name = "customersManagement";
             this.customersManagement.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
             this.customersManagement.Text = "ادارة العملاء";
+            this.customersManagement.Click += new System.EventHandler(this.customersManagement_Click);
             // 
             // users
             // 
